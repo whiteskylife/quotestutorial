@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-
+from quotestutorial.items import QuoteItem
 
 class QuotesSpider(scrapy.Spider):
     name = 'quotes'
@@ -8,4 +8,5 @@ class QuotesSpider(scrapy.Spider):
     start_urls = ['http://quotes.toscrape.com/']
 
     def parse(self, response):
-        pass
+        print(response.text)
+        # print(response.headers)
