@@ -14,12 +14,15 @@ BOT_NAME = 'quotestutorial'
 SPIDER_MODULES = ['quotestutorial.spiders']
 NEWSPIDER_MODULE = 'quotestutorial.spiders'
 
+MONGO_URL = '192.168.1.110'
+MONGO_DB = 'quotestutorial'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'quotestutorial (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -67,6 +70,11 @@ ROBOTSTXT_OBEY = True
 #ITEM_PIPELINES = {
 #    'quotestutorial.pipelines.QuotestutorialPipeline': 300,
 #}
+
+ITEM_PIPELINES = {
+   'quotestutorial.pipelines.TextPipeline': 300,
+   'quotestutorial.pipelines.MongoPipeline': 400,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

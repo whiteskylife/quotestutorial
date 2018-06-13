@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from quotestutorial.items import QuoteItem
+from scrapy.http.request import Request
+
 
 class QuotesSpider(scrapy.Spider):
     name = 'quotes'
@@ -8,5 +10,19 @@ class QuotesSpider(scrapy.Spider):
     start_urls = ['http://quotes.toscrape.com/']
 
     def parse(self, response):
-        print(response.text)
-        # print(response.headers)
+        quotes = response.css('.quote')
+        for quote in quotes:
+            item = QuoteItem()
+            text = quote.css('.text::text').extract_first()
+            author = quote.css('.author::text').extract_first()
+            tags = quote.css('.tags .tag::text').extract()
+            item['text'] = text
+            item['author'] = author
+            item['tags'] = tags
+            print('=================       in parse     ===============')
+            yield item
+
+        next = response.css('.pager .next a::attr(href)').extract_first()
+        url = response.urljoin(next)
+        print(url)
+        yield scrapy.Request(url, self.parse)
